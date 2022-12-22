@@ -1,20 +1,22 @@
 from nilearn import datasets
 import os
 import ants
+import argparse
 
 from utils import save_slices_as_png
 from distributions.HD_BET.main import hd_bet
 
-if __name__ == "__main__":
-    import argparse
-    parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-    parser.add_argument('--data_dir', '-d', default='/home/marcus/Desktop/Datasets/ADNI2_temp/ADNI/',
-                        help='MRI image folder to process')
-    args = parser.parse_args()
 
-    for filename in os.listdir(args.data_dir):
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--data-dir", '-dd', default='/home/marcus/Desktop/Datasets/ADNI2_temp/ADNI/',
+                        help='MRI image folder to process', type=str)
+    args, unknown = parser.parse_known_args()
+    data_dir = args.data_dir
+    print(data_dir)
+    for filename in os.listdir(data_dir):
         print(f'\n ################## processing patient image: {filename} ################## \n')
-        ptid_folder = os.path.join(args.data_dir, filename)
+        ptid_folder = os.path.join(data_dir, filename)
         image_names = [x for x in os.listdir(ptid_folder) if x.endswith('.nii')]
         for image_name in image_names:
             image_path = f'{ptid_folder}/{image_name}'
@@ -41,4 +43,3 @@ if __name__ == "__main__":
 
             """Save middle slices"""
             save_slices_as_png(n4_bet_resampled_image_path, ptid_folder, slice_number=10)
-
