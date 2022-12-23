@@ -1,5 +1,9 @@
 # Brain Extraction, Bias Field Correction & Registration
 
+![alt text](images/0.png)
+![alt text](images/5.png)
+![alt text](images/10.png)
+
 This repository provides easy to use access for brain-extraction from MRI images. The code consists of the consecutive
 applied processing units HD-BET brain extraction tool [1], the SimpleITK N4 Software for bias field correction [2] & the 
 Advanced Neuroimaging Tools (ANTs) library for registration the MNI ICBM152 brain atlas.

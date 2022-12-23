@@ -9,7 +9,7 @@ from distributions.HD_BET.process import hd_bet
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument("--data-dir", '-dd', default='/home/marcus/Desktop/Datasets/ADNI2_temp/ADNI/',
+    parser.add_argument("--data-dir", '-dd', default='/home/marcus/Desktop/Datasets/test/',
                         help='MRI image folder to process', type=str)
     parser.add_argument("--num_saved_slices", '-ns', default=10,
                         help='number of centered MRI slices saved as png, if None than all slices are saved as png.')
