@@ -6,16 +6,24 @@ from distributions.HD_BET.utils import maybe_mkdir_p, subfiles
 from distributions import HD_BET
 
 
-def hd_bet(input_image, output_image):
+def hd_bet(input_image, output_image, device):
     """hd bet"""
-    parser = argparse.ArgumentParser(description='bet parser')
-    parser.add_argument('-mode', type=str, default='accurate', required=False)
-    parser.add_argument('-device', default='0', type=str, required=False)
-    parser.add_argument('-tta', default=1, required=False, type=int)
-    parser.add_argument('-pp', default=1, type=int, required=False)
-    parser.add_argument('-s', '--save_mask', default=1, type=int, required=False)
-    parser.add_argument('--overwrite_existing', default=1, type=int, required=False)
-    args = parser.parse_args()
+    hd_parser = argparse.ArgumentParser(description='bet parser')
+    hd_parser.add_argument('-mode', type=str, default='accurate', required=False)
+    hd_parser.add_argument('-device', default='0', type=str, required=False)
+    hd_parser.add_argument('-tta', default=1, required=False, type=int)
+    hd_parser.add_argument('-pp', default=1, type=int, required=False)
+    hd_parser.add_argument('-s', '--save_mask', default=1, type=int, required=False)
+    hd_parser.add_argument('--overwrite_existing', default=1, type=int, required=False)
+    hd_parser.add_argument("--data-dir", '-dd', default='/home/marcus/Desktop/Datasets/ADNI2_temp/ADNI/',
+                           help='MRI image folder to process', type=str)
+    hd_parser.add_argument("--num_saved_slices", '-ns', default=10, help='number of centered MRI slices saved as png')
+    args = hd_parser.parse_args()
+
+    if device == 'cpu':
+        args.device = 'cpu'
+        args.mode = 'fast'
+        args.tta = 0
 
     """Caller function which calculates the brain extraction using HD-BET"""
     input_file_or_dir = input_image

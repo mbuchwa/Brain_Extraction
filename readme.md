@@ -2,7 +2,7 @@
 
 This repository provides easy to use access for brain-extraction from MRI images. The code consists of the consecutive
 applied processing units HD-BET brain extraction tool [1], the SimpleITK N4 Software for bias field correction [2] & the 
-Advanced Neuroimaging Tools (ANTs) library for registration the MNI ICBM152 brain atlas. 
+Advanced Neuroimaging Tools (ANTs) library for registration the MNI ICBM152 brain atlas.
 
 ## Data
 The images should be in `'.nii'` format and stored in a folder with the corresponding patient ID (PTID). Hence the 
@@ -12,11 +12,37 @@ structure should be as follows:
     - `PTID/`: folder containing all images of that patient
       - `image_name.nii`: Head MRI in '.nii' format
 
-## Usage
-Python 3.7.2 is used. Install requirements by running
+## Prerequisites
+
+Python 3.7.2 is used. 
+
+Install ANTsPy through
+
+`pip install https://github.com/ANTsX/ANTsPy/releases/download/v0.2.0/antspyx-0.2.0-cp37-cp37m-linux_x86_64.whl`
+
+Install requirements by running
 
 `pip install -r requirements.txt`.
 
+## Usage
+
+Run the script using: 
+
+`python -m main --data-dir /home/usr/data/ --num_saved_slices 10`.
+
+HD-BET runs on GPU but also has CPU support. Running on CPU takes a lot longer though and you will need quite a bit of RAM. To run on CPU, we recommend you use the following command:
+
+`python -m main --data-dir /home/usr/data/ --num_saved_slices 10 -device cpu`
+
+- The brain_extracted image (no registration and bfc) is saved under `*image_name*_bet.nii.gz`
+- The brain extrated + bias field corrected image is saved under `*image_name*_bet_bfc.nii.gz`
+- The brain extrated + bias field corrected + MNI152 registered image is saved under `*image_name*_bet_bfc_registered.nii.gz`
+
+The middle MRI Slices are saved to a folder called `slices_*image_name*`. The number of saved middle slices is defined 
+through the `--num_saved_slices` flag. When parsing `None`, all slices of the processed `.nii` are saved.
+
+-------------------------------------------
+-------------------------------------------
 
 
 [1] Isensee F, Schell M, Tursunova I, Brugnara G, Bonekamp D, Neuberger U, Wick A, Schlemmer HP, Heiland S, Wick W, 
